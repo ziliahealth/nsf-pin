@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+sh_lib_dir="$("$(dirname "$0")/pkg-nsf-pin-get-sh-lib-dir")"
+# shellcheck source=SCRIPTDIR/../sh-lib/nix_src_update.sh
+. "$sh_lib_dir/nix_src_update.sh"
+
+update_nix_src_json_cli "$@"
