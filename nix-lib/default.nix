@@ -21,15 +21,5 @@ rec {
     inherit mkSrcHelpersWLocalIgnores;
     pkgsFallback = pkgs;
   };
-
-  #
-  # Backward compat interface.
-  #
-  mkSrcHelpersWLocalFilterOld = import ./src-helpers-old.nix {
-    inherit pinnedSrcHelpers;
-    pkgsFallback = pkgs;
-  };
-
-  mkSrcHelpersOld = mkSrcHelpersWLocalFilterOld;
 }
 
