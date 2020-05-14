@@ -34,15 +34,15 @@ let
 in
 
 rec {
-  inherit pinnedSrcHelpers;
-  srcHelpers = mkSrcHelpersWLocalIgnores {
+  helpersPinned = pinnedSrcHelpers;
+  helpers = mkSrcHelpersWLocalIgnores {
     inherit workspaceDir pinnedSrcsDir srcPureIgnores pinned pkgs;
   };
 
   inherit srcPureIgnores;
 
-  pinnedPaths = srcHelpers.attrsAllPinnedSrcPaths;
-  pinned = srcHelpers.fetchAllPinnedSrcs opts;
-  rawLocalOrPinned = srcHelpers.fetchAllRawLocalOrPinnedSrcs opts;
-  localOrPinned = srcHelpers.fetchAllLocalOrPinnedSrcs opts;
+  pinnedPaths = helpers.attrsAllPinnedSrcPaths;
+  pinned = helpers.fetchAllPinnedSrcs opts;
+  rawLocalOrPinned = helpers.fetchAllRawLocalOrPinnedSrcs opts;
+  localOrPinned = helpers.fetchAllLocalOrPinnedSrcs opts;
 }
