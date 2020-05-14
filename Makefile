@@ -15,3 +15,7 @@ release:
 
 	nix eval --show-trace --raw \
 	  '(builtins.toString (builtins.isAttrs ((import ./release.nix {}).nix-lib.pinnedSrcHelpers)))'
+
+	nix eval --show-trace --raw \
+	  '(builtins.toString (builtins.isAttrs ((import ./release.nix {}).nix-lib.mkSrcDir)))'
+
