@@ -24,6 +24,29 @@
 
 let
   optionalAttrs = cond: as: if cond then as else {};
+
+  hasPrefix = prefix: x:
+    prefix == builtins.substring 0 (builtins.stringLength prefix) x;
+
+  ensureNixAbsPath = rp:
+    if builtins.isPath rp
+      # Should not be prefixed by source file dir as it is relative
+      # to the source nix file.
+      then rp
+    else if hasPrefix builtins.storeDir (builtins.toString rp)
+      # Definitively a abs path. Should not be appeded to a path as
+      # otherwise we will receive the following error:
+      # "error: a string that refers to a store path cannot be appended to a path, at."
+      then rp
+    else if "/" == builtins.substring 0 1 (builtins.toString rp)
+      # Absoluate path as strings should be returned as a corresponding
+      # nix path.
+      then /. + rp
+    else
+      # Relative path. This is unexpected.
+      assert false;
+      ./. + "/${rp}";
+
   pinnedApi = {
     fetchPinnedSrc = pname: opts:
       if pinned ? "${pname}"
@@ -98,8 +121,8 @@ pinnedApi // {
           # read for a branch mapping at some point.
           default = {
             name = pname;
-            src =
-              localSrcFilter pname localSrc pinnedSrc.default.src;
+            src = ensureNixAbsPath (
+              localSrcFilter pname localSrc pinnedSrc.default.src);
             version = {
               type = "local";
               url = builtins.toString localSrc;
