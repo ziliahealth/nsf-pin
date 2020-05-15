@@ -47,7 +47,7 @@ rec {
             else pickedSrcs.nixpkgs.src;
       in
     assert null != nixpkgs;
-    import nixpkgs { inherit overlays; };
+    import nixpkgs {};
 
   ensurePkgs = { pkgs ? null, nixpkgs ? null }:
     if null != pkgs
