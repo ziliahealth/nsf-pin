@@ -35,18 +35,24 @@ let
     else
       assert builtins.isString x;
       [ x ];
+
+  nix-gitignore =
+    if null != pkgs
+      then pkgs.nix-gitignore
+    else
+      # TODO: Consider an alternative gitignore solution
+      # as downloading a pinned versions of nixpkgs just
+      # to get this package is might seem quite costly.
+        let
+          pkgs = (import (../.nix) {}).ensurePkgs {};
+        in
+      pkgs.nix-gitignore;
 in
 
 mkSrcHelpersWLocalFilter ({
     inherit pinnedSrcsDir workspaceDir pkgs pinned;
-  # A local source filter is only provided when
-  # a `pkgs` set is available. This is because
-  # we need the package `nix-gitignore`.
-  # TODO: We might be able to provide some alternative for that
-  #       (alternative ignore lib?).
-  } // optionalAttrs (null != pkgs) {
     localSrcFilter = pname: localSrc: pinnedSrc:
-      pkgs.nix-gitignore.gitignoreSourcePure (
+      nix-gitignore.gitignoreSourcePure (
           if srcPureIgnores ? "${pname}"
             then
               ensureListWhenStrOrList srcPureIgnores."${pname}"

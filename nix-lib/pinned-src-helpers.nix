@@ -110,6 +110,8 @@ rec {
       in
     assert assertHasDefaultChannel;
     # Propagate the src's name.
+    # TODO: This seems to be the channel name.
+    # IDEA: We should return both: `name = "my-src:my-channel"`.
     fetchedChannels // { name = srcName; };
 
 
