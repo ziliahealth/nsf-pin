@@ -22,6 +22,11 @@ Todo
     In the meantime, if this is deemed essential, one can use instead the
     unfiltered sources `rawLocalOrPinned`.
 
+ -  Doc how to create a custom pin by creating a `default.nix` under the
+    source's directory.
+
+    This can be used for example to reuse a pin from another pinned project.
+
 
 Contributing
 ------------
