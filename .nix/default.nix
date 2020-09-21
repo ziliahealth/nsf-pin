@@ -38,13 +38,17 @@ rec {
   pickedSrcs =
     builtins.mapAttrs (k: v: v.default) srcs.pinned;
 
+  # This constitutes our default nixpkgs.
+  nixpkgsSrc = pickedSrcs.nixpkgs.src;
+  nixpkgs = nixpkgsSrc;
+
   importPkgs = { nixpkgs ? null } @ args:
       let
         nixpkgs =
           if args ? "nixpkgs" && null != args.nixpkgs
             then args.nixpkgs
             # This constitutes our default nixpkgs.
-            else pickedSrcs.nixpkgs.src;
+            else nixpkgsSrc;
       in
     assert null != nixpkgs;
     import nixpkgs {};

@@ -9,11 +9,15 @@
 , jq
 , yq
 , nix-prefetch-git
+, path  # path to nixpkgs
 , nix-prefetch-github
 }:
 
 let
-  mkBinPathPrefixStr = xs: "export PATH=\"${lib.makeBinPath xs}\"\${PATH:+\":\"}$PATH";
+  mkBinPathPrefixStr = xs: "export \"PATH=${lib.makeBinPath xs}\"\${PATH:+\":\"}$PATH";
+  # Workaround
+  # <https://github.com/seppeljordan/nix-prefetch-github/issues/31>
+  mkNixPathPrefixStr = "export \"NIX_PATH=nixpkgs=${path}\"";
   runtimeDeps = [
     coreutils
     gawk
@@ -66,7 +70,7 @@ stdenv.mkDerivation rec {
       # patch the input file.
       sed -E \
         "$cmd" \
-        -e '/^#!.+bash$/a ${mkBinPathPrefixStr runtimeDeps}' \
+        -e '/^#!.+bash$/a ${mkBinPathPrefixStr runtimeDeps}\n${mkNixPathPrefixStr}' \
         -e 's#^(sh_lib_dir)=.+$#\1="${shLibInstallDir}"#g' \
         > "$out/bin/$target_cmd_basename"
       chmod a+x "$out/bin/$target_cmd_basename"

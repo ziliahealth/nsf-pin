@@ -3,6 +3,6 @@
   "owner": "NixOS",
   "repo": "nixpkgs",
   "ref": "release-20.03",
-  "rev": "a7c70f2e10bc7efc93b2a7cd73ddd4084d7c0099",
-  "sha256": "1fzprhcsxgwh5yh9kxyz99dsbshh0q9zfp6lz6cdwhzhzy8qvk4v"
+  "rev": "21d8e70a69f704a6ab971b2d8265d40cc7bb69b1",
+  "sha256": "0d6ym23bzx8c4ani7lp3k9qmbv7j9bf15vfmiff0f5lbz326bdgi"
 }

@@ -1,4 +1,8 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? null } @ args:
+
+let
+  pkgs = (import ../.nix/release.nix {}).ensurePkgs args;
+in
 
 with pkgs;
 
@@ -39,7 +43,10 @@ rec {
       ];
 
       shellHook = ''
-        export PATH="${builtins.toString ./bin}:$PATH"
+        export "PATH=${builtins.toString ./bin}:$PATH"
+        # Workaround
+        # <https://github.com/seppeljordan/nix-prefetch-github/issues/31>
+        export "NIX_PATH=nixpkgs=${path}"
         export "PYTHON_INTERPRETER=${devPython}/bin/python"
       '';
     };
