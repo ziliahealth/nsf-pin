@@ -243,7 +243,7 @@ _update_nix_src_json_using_fetch_from_github() {
 
   # echo "nix-prefetch-github version: $(nix-prefetch-github --version)"
 
-  local prefetch_args=( "--no-prefetch" "--rev" "$fetch_rev" "$owner" "$repo" )
+  local prefetch_args=( "--rev" "$fetch_rev" "$owner" "$repo" )
   printf "$ nix-prefetch-github %s\n" "$(print_cmd_args "${prefetch_args[@]}")"
 
   local prefetch_stdout
