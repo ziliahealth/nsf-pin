@@ -1,4 +1,4 @@
 type: fetchFromGitHub
 owner: NixOS
 repo: nixpkgs
-ref: refs/tags/22.05
+ref: refs/tags/24.11
